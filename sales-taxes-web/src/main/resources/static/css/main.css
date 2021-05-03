@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2021 Fuel.ag.
+ * All rights reserved.
+ * https://fuel.ag
+ */
+
+/*
+ * @author Mauro Sousa
+ */
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+h1{
+	color:#0000FF;
+}
+
+h2{
+	color:#FF0000;
+}
+
+.logo-width{
+    width: 50%;
+}

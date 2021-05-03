@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.3</version>
+        <relativePath/>
+    </parent>
+    <groupId>ag.fuel</groupId>
+    <artifactId>api-sales-taxes</artifactId>
+    <version>1.0.1</version>
+    <name>api-sales-taxes</name>
+    <description>Webservice - Sales Taxes</description>
+
+    <properties>
+        <java.version>8</java.version>
+        <springfox-swagger.version>3.0.0</springfox-swagger.version>
+        <api-log-file>my-application.log</api-log-file>
+        <api-host>http://localhost</api-host>
+        <api-port>9001</api-port>
+        <api-address>${api-host}:${api-port}</api-address>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <version-date>${maven.build.timestamp}</version-date>
+        <project-name>SalesTaxesApi</project-name>
+
+        <!--MyBatis DB properties-->
+        <mybatis-hostname>sql403.main-hosting.eu</mybatis-hostname>
+        <mybatis-port>3306</mybatis-port>
+        <mybatis-database>u245148167_sales_taxes</mybatis-database>
+        <mybatis-driver>com.mysql.cj.jdbc.Driver</mybatis-driver>
+        <mybatis-url>jdbc:mysql://${mybatis-hostname}:${mybatis-port}/${mybatis-database}</mybatis-url>
+        <mybatis-username>u245148167_sales_admin</mybatis-username>
+        <mybatis-password>QxC$J#P3</mybatis-password>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!--mySQL-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Swagger-UI-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+        <!-- Apache Commons-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project-name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>replace-variables</id>
+                        <!--<phase>initialize</phase>-->
+                        <phase>validate</phase>
+                        <configuration>
+                            <tasks>
+                                <replace token="//#{api-log-file}" value="${api-log-file}" dir="${basedir}">
+                                    <include name="**/application.properties"/>
+                                </replace>
+                                <replace token="//#{api-port}" value="${api-port}" dir="${basedir}">
+                                    <include name="**/application.properties"/>
+                                </replace>
+                                <replace token="//#{api-address}" value="${api-address}" dir="${basedir}">
+                                    <include name="**/frontend/index.html"/>
+                                </replace>
+                                <replace token="//#{version-date}" value="${version-date}" dir="${basedir}">
+                                    <include name="**/frontend/swagger-ui.js"/>
+                                </replace>
+                                <replace token="//#{version}" value="${project.version}" dir="${basedir}">
+                                    <include name="**/frontend/swagger-ui.js"/>
+                                    <include name="**/ApiCreditScoreApplication.java"/>
+                                </replace>
+                                <!---->
+                                <replace token="--MYBATIS-DB-DRIVER--" value="${mybatis-driver}" dir="${basedir}">
+                                    <include name="src/main/resources/mybatis/config/api.properties"/>
+                                </replace>
+                                <replace token="--MYBATIS-DB-URL--" value="${mybatis-url}" dir="${basedir}">
+                                    <include name="src/main/resources/mybatis/config/api.properties"/>
+                                </replace>
+                                <replace token="--MYBATIS-DB-USERNAME--" value="${mybatis-username}" dir="${basedir}">
+                                    <include name="src/main/resources/mybatis/config/api.properties"/>
+                                </replace>
+                                <replace token="--MYBATIS-DB-PASSWORD--" value="${mybatis-password}" dir="${basedir}">
+                                    <include name="src/main/resources/mybatis/config/api.properties"/>
+                                </replace>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
